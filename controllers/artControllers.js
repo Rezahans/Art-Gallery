@@ -59,6 +59,8 @@ module.exports = {
     update: async (req, res) => {
         try {
             const artId = parseInt(req.params.artId);
+            const { name, title, description } = req.body;
+    
             const existingArt = await art.findUnique({
                 where: { id: artId },
             });
@@ -68,10 +70,9 @@ module.exports = {
             }
     
             const updatedData = {
-                name: req.body.name || existingArt.name,
-                title: req.body.title || existingArt.title,
-                description: req.body.description || existingArt.description,
-                image: existingArt.image,
+                name: name || existingArt.name,
+                title: title || existingArt.title,
+                description: description || existingArt.description,
             };
     
             const editedArt = await art.update({
