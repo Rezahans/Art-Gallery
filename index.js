@@ -7,7 +7,7 @@ const express = require('express'),
     require("dotenv").config();
 app.use(express.json({ strict : false}))
 app.use(cors())
-app.use('/images', express.static('public/images'))
+// app.use('/images', express.static('public/images'))
 app.use('/api/v1', router)
 
 // Handle 404 route
