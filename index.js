@@ -2,8 +2,6 @@ const express = require('express'),
     app = express(),
     port = process.env.PORT || 7000,
     controller = require('./controllers/artControllers'),
-    router = express.Router(),
-    multerLib = require('multer')();
     cors = require('cors');
 
 app.use(express.json({ strict : false}))
