@@ -34,11 +34,11 @@ module.exports = {
     },
     getAllArt: async (req, res) => {
         try {
-            const data = await prisma.images.findMany()
+            const data = await prisma.art.findMany()
 
             return res.status(200).json({
                 error: false,
-                message: 'get all images success.',
+                message: 'get all art success.',
                 data: data
             })
         } catch (error) {
