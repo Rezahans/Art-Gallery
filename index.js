@@ -3,12 +3,12 @@ const express = require('express'),
     port = process.env.PORT || 7000,
     controller = require('./controllers/artControllers'),
     router = express.Router(),
-    multer = require('multer')();
+    multerLib = require('multer')();
     cors = require('cors');
 
 app.use(express.json({ strict : false}))
 app.use(cors())
-app.post('/create-with-imagekit', multer.single('image') , controller.createWithImageKit);
+app.post('/create-with-imagekit', multerLib.single('image') , controller.createWithImageKit);
 app.get('/art', controller.getAllArt);
 app.get('/art/:artId', controller.getArtById);
 app.put('/art/:artId', controller.update);
