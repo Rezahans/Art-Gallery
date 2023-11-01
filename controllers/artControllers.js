@@ -3,7 +3,26 @@ const { imageKit } = require('../utils');
 
 
 module.exports = {
-
+    create: async (req, res) => {
+        try {
+            const data = await art.create({
+                data: {
+                    name: req.body.name,
+                    title: req.body.title,
+                    description: req.body.description,
+                    image: `/images/${req.file.filename}`
+                }
+            });
+            return res.status(201).json({
+                data
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({
+                error
+            });
+        }
+    },
     createWithImageKit: async (req, res) => {
         try {
             const fileTostring = req.file.buffer.toString('base64');
@@ -28,6 +47,28 @@ module.exports = {
             
         } catch (error) {
             console.log(error)
+            return res.status(500).json({
+                error
+            });
+        }
+    },
+    upload: async (req, res) => {
+        try {
+            const fileTostring = req.file.buffer.toString('base64');
+
+            const uploadFile = await imageKit.upload({
+                fileName: req.file.originalname,
+                file: fileTostring
+            });
+
+            return res.status(200).json({
+                data: {
+                    name: uploadFile.name,
+                    url: uploadFile.url,
+                    type: uploadFile.fileType
+                }
+            })
+        } catch (error) {
             return res.status(500).json({
                 error
             });
@@ -59,8 +100,6 @@ module.exports = {
     update: async (req, res) => {
         try {
             const artId = parseInt(req.params.artId);
-            const { name, title, description } = req.body;
-    
             const existingArt = await art.findUnique({
                 where: { id: artId },
             });
@@ -70,9 +109,10 @@ module.exports = {
             }
     
             const updatedData = {
-                name: name || existingArt.name,
-                title: title || existingArt.title,
-                description: description || existingArt.description,
+                name: req.body.name || existingArt.name,
+                title: req.body.title || existingArt.title,
+                description: req.body.description || existingArt.description,
+                image: existingArt.image, 
             };
     
             const editedArt = await art.update({
@@ -80,13 +120,12 @@ module.exports = {
                 data: updatedData,
             });
     
-            return res.status(200).json({ message: 'Art updated successfully', data: editedArt });
+            return res.status(200).json(editedArt);
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     },
-    
 
     delete: async (req, res) => {
         try {
@@ -109,5 +148,6 @@ module.exports = {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }
+    
 
 };
