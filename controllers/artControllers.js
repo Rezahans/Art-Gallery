@@ -34,9 +34,13 @@ module.exports = {
     },
     getAllArt: async (req, res) => {
         try {
-            const allArt = await art.findMany();
-    
-            return res.status(200).json(allArt);
+            const data = await prisma.images.findMany()
+
+            return res.status(200).json({
+                error: false,
+                message: 'get all images success.',
+                data: data
+            })
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: 'Internal Server Error' });
