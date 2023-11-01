@@ -11,7 +11,7 @@ app.use(cors())
 app.post('/create-with-imagekit', multer.single('image') , controller.createWithImageKit);
 app.get('/art', controller.getAllArt);
 app.get('/art/:artId', controller.getArtById);
-app.put('/art/:artId', controller.update);
+app.put('/art/:artId', multer.single('image'), controller.update);
 app.delete('/art/:artId', controller.delete);
 
 
