@@ -71,7 +71,7 @@ module.exports = {
                 name: req.body.name || existingArt.name,
                 title: req.body.title || existingArt.title,
                 description: req.body.description || existingArt.description,
-                image: existingArt.image, 
+                image: existingArt.image,
             };
     
             const editedArt = await art.update({
@@ -79,12 +79,13 @@ module.exports = {
                 data: updatedData,
             });
     
-            return res.status(200).json(editedArt);
+            return res.status(200).json({ message: 'Art updated successfully', data: editedArt });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     },
+    
 
     delete: async (req, res) => {
         try {
