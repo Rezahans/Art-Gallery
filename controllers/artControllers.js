@@ -3,6 +3,7 @@ const { imageKit } = require('../utils');
 
 
 module.exports = {
+
     createWithImageKit: async (req, res) => {
         try {
             const fileTostring = req.file.buffer.toString('base64');
@@ -34,13 +35,9 @@ module.exports = {
     },
     getAllArt: async (req, res) => {
         try {
-            const data = await prisma.art.findMany()
-
-            return res.status(200).json({
-                error: false,
-                message: 'get all art success.',
-                data: data
-            })
+            const allArt = await art.findMany();
+    
+            return res.status(200).json(allArt);
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: 'Internal Server Error' });
